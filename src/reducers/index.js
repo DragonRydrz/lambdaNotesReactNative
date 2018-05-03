@@ -11,6 +11,7 @@ const initState = {
   activeUser: null,
   loggedIn: false,
   error: null,
+  token: null,
   // users: [
   //   {
   //     username: 'DragonRydrz',
@@ -99,7 +100,8 @@ export default (state = initState, action) => {
         ...state,
         activeUser: action.payload,
         loggedIn: true,
-        notes: action.payload.notes,
+        notes: action.payload.user.notes,
+        token: action.payload.token,
       };
     case SIGN_OUT:
       // const userNotesToSave = state.notes;
@@ -121,8 +123,9 @@ export default (state = initState, action) => {
       return {
         ...state,
         activeUser: action.payload,
-        notes: action.payload.notes,
+        notes: action.payload.user.notes,
         loggedIn: true,
+        token: action.payload.token,
       };
     case ERROR:
       return { ...state, error: action.payload };

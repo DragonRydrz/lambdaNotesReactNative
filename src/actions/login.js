@@ -6,18 +6,18 @@ export const ERROR = 'ERROR';
 const host = 'https://ajlnbe.herokuapp.com/api/login';
 
 export const login = data => dispatch => {
+  console.log(data, 'in login action');
   axios
     .post(host, data)
     .then(response => {
-      const token = response.data.token;
-      const user = response.data.user;
-      localStorage.setItem('Dragons!', token);
+      const data = response.data;
       dispatch({
         type: LOGIN,
-        payload: user,
+        payload: data,
       });
     })
     .catch(err => {
+      console.log(err, 'err');
       alert('Login failed.  Please try again.');
     });
 };

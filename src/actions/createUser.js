@@ -8,13 +8,15 @@ export const createUser = data => dispatch => {
   axios
     .post(host, data)
     .then(response => {
-      const token = response.data.token;
-      const user = response.data.user;
-      localStorage.setItem('Dragons!', token);
+      const data = response.data;
+      console.log(response, data);
       dispatch({
         type: CREATE_USER,
-        payload: user,
+        payload: data,
       });
     })
-    .catch(err => alert('Account creation failed.  Please try again.'));
+    .catch(err => {
+      console.log(err);
+      alert('Account creation failed.  Please try again.');
+    });
 };
