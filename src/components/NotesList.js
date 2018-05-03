@@ -2,25 +2,18 @@ import React, { Component } from 'react';
 import { AsyncStorage, FlatList, View, Text } from 'react-native';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
+import { deleteNote } from '../actions/deleteNote';
 import { signOut } from '../actions/signOut';
 import { Card, CardSection } from './common';
 
 class NotesList extends Component {
-  state = {
-    notes: this.props.notes,
-  };
-  // keyExtractor = item => item._id;
   render() {
-    {
-      AsyncStorage.getItem('Dragons!').then(response => console.log(response));
-      console.log(this.state.notes);
-    }
     const { titleStyle, bodyStyle } = styles;
     return (
       <View>
         <FlatList
           style={{ height: '87%' }}
-          data={this.state.notes}
+          data={this.props.notes}
           keyExtractor={item => item._id}
           renderItem={({ item }) => (
             <Card>
@@ -31,7 +24,9 @@ class NotesList extends Component {
                 <Text style={bodyStyle}>{item.body}</Text>
               </CardSection>
               <CardSection>
-                <Button>Delete</Button>
+                <Button onPress={() => this.props.deleteNote(item._id)}>
+                  Delete
+                </Button>
               </CardSection>
             </Card>
           )}
@@ -57,4 +52,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { signOut })(NotesList);
+export default connect(mapStateToProps, { signOut, deleteNote })(NotesList);
