@@ -1,8 +1,7 @@
 import axios from 'axios';
-
+import { AsyncStorage } from 'react-native';
 export const LOGIN = 'LOGIN';
 export const ERROR = 'ERROR';
-
 const host = 'https://ajlnbe.herokuapp.com/api/login';
 
 export const login = data => dispatch => {
@@ -10,10 +9,11 @@ export const login = data => dispatch => {
   axios
     .post(host, data)
     .then(response => {
-      const data = response.data;
+      // const user = response.data.user;
+      AsyncStorage.setItem('Dragons!', response.data.token);
       dispatch({
         type: LOGIN,
-        payload: data,
+        payload: response.data.user,
       });
     })
     .catch(err => {

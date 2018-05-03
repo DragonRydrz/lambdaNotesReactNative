@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AsyncStorage } from 'react-native';
 
 export const CREATE_USER = 'CREATE_USER';
 
@@ -8,8 +9,8 @@ export const createUser = data => dispatch => {
   axios
     .post(host, data)
     .then(response => {
-      const data = response.data;
-      console.log(response, data);
+      const { user, token } = response.data;
+      AsyncStorage.setItem('Dragons!', token);
       dispatch({
         type: CREATE_USER,
         payload: data,

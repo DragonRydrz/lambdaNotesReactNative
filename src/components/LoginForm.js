@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { Text, View } from 'react-native';
+import { AsyncStorage, Text, View } from 'react-native';
 import { Card, CardSection, Button, Input, Spinner } from './common';
 import NotesList from './NotesList';
 import { login } from '../actions/login';
 import { createUser } from '../actions/createUser';
+import { authorize } from '../actions/authorize';
 
 class LoginForm extends Component {
   state = {
     username: '',
     password: '',
     loading: false,
+    loggedIn: false,
   };
+
+  componentDidMount() {
+    const token = AsyncStorage.getItem('Dragons')
+      .then(response => response)
+      .catch(err => null);
+    if (token) {
+      this.props.authorize(token);
+    }
+  }
 
   render() {
     return this.loginOrNotes();
@@ -21,6 +32,12 @@ class LoginForm extends Component {
   loginOrNotes() {
     if (this.props.loggedIn) {
       return <NotesList />;
+      console.log(this.props.loggedIn);
+      // return (
+      //   <View style={{ flex: 1, borderWidth: 5, fontSize: 20 }}>
+      //     <Text>SHOW ME THIS</Text>
+      //   </View>
+      // );
     } else {
       return (
         <Card>
@@ -57,22 +74,26 @@ class LoginForm extends Component {
     return (
       <View style={styles.buttonViewStyle}>
         <Button
-          onPress={() =>
-            this.props.login({
+          onPress={() => {
+            const user = {
               username: this.state.username,
               password: this.state.password,
-            })
-          }
+            };
+            this.setState({ username: '', password: '' });
+            return this.props.login(user);
+          }}
         >
           Log In
         </Button>
         <Button
-          onPress={() =>
-            this.props.createUser({
+          onPress={() => {
+            const user = {
               username: this.state.username,
               password: this.state.password,
-            })
-          }
+            };
+            this.setState({ username: '', password: '' });
+            return this.props.createUser(user);
+          }}
         >
           Sign Up
         </Button>
@@ -102,4 +123,6 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, { login, createUser })(LoginForm);
+export default connect(mapStateToProps, { login, createUser, authorize })(
+  LoginForm
+);
