@@ -2,29 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { TextInput, Button as Button2 } from 'react-native';
 import { Card, CardSection, InputNoLabel, Button } from '../components/common';
-import { editNote } from '../actions/editNote';
+import { newNote } from '../actions/newNote';
 
 class EditNote extends Component {
   state = {
     body: '',
     title: '',
-    _id: '',
   };
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
-      headerRight: (
-        <Button2 title={'Submit'} onPress={() => params.addNote()} />
-      ),
+      headerRight: <Button2 title={'Add'} onPress={() => params.addNote()} />,
     };
   };
 
   componentDidMount() {
-    const { _id, title, body } = this.props.navigation.state.params.note;
-    this.setState({ _id, title, body });
     this.props.navigation.setParams({
       addNote: () => {
-        this.props.editNote(this.state);
+        this.props.newNote(this.state);
         console.log(this.props.navigation);
         this.props.navigation.pop();
       },
@@ -83,4 +78,4 @@ const styles = {
   },
 };
 
-export default connect(null, { editNote })(EditNote);
+export default connect(null, { newNote })(EditNote);

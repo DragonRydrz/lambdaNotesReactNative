@@ -13,8 +13,8 @@ const App = () => {
   return (
     <Provider store={createStore(reducers, applyMiddleware(thunk))}>
       <View style={{ flex: 1 }}>
-        {/* <Header headerText="LambdaNotes" />
-        <LoginForm /> */}
+        {/* <Header headerText="LambdaNotes" /> */}
+        {/* <LoginForm /> */}
         <RootStack />
       </View>
     </Provider>

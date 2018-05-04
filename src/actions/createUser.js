@@ -5,7 +5,7 @@ export const CREATE_USER = 'CREATE_USER';
 
 const host = 'https://ajlnbe.herokuapp.com/api/register';
 
-export const createUser = data => dispatch => {
+export const createUser = (data, navigate) => dispatch => {
   axios
     .post(host, data)
     .then(response => {
@@ -15,6 +15,7 @@ export const createUser = data => dispatch => {
         type: CREATE_USER,
         payload: data,
       });
+      navigate('NotesList');
     })
     .catch(err => {
       console.log(err);

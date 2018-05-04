@@ -15,8 +15,7 @@ const styles = {
     backgroundColor: '#F8F8F8',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 60,
-    paddingTop: 15,
+    height: 40,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -27,7 +26,7 @@ const styles = {
     position: 'relative',
   },
   textStyle: {
-    fontSize: 30,
+    fontSize: 25,
   },
 };
 

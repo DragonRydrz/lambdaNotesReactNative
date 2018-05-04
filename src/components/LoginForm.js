@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { AsyncStorage, Text, View } from 'react-native';
-import { Card, CardSection, Button, Input, Spinner } from './common';
+import { AsyncStorage, Text, View, SafeAreaView } from 'react-native';
+import { Card, CardSection, Button, Input, Spinner, Header } from './common';
 import NotesList from './NotesList';
 import { login } from '../actions/login';
 import { createUser } from '../actions/createUser';
@@ -37,7 +37,12 @@ class LoginForm extends Component {
     //   </View>
     // );
     // }
-    return this.loginOrNotes();
+    return (
+      <SafeAreaView>
+        <Header headerText="LambdaNotes" />
+        {this.loginOrNotes()}
+      </SafeAreaView>
+    );
   }
 
   loginOrNotes() {
@@ -95,7 +100,7 @@ class LoginForm extends Component {
               password: this.state.password,
             };
             this.setState({ username: '', password: '' });
-            return this.props.createUser(user);
+            return this.props.createUser(user, this.props.navigation.navigate);
           }}
         >
           Sign Up

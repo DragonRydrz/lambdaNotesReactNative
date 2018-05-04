@@ -5,19 +5,41 @@ import {
   View,
   Text,
   TouchableHighlight,
+  Button as Button2,
+  SafeAreaView,
 } from 'react-native';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
 import { deleteNote } from '../actions/deleteNote';
 import { signOut } from '../actions/signOut';
-import { Card, CardSection } from './common';
+import { Card, CardSection, Header } from './common';
 
 class NotesList extends Component {
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      headerRight: (
+        <Button2 title={'Add Note'} onPress={() => params.addNote()} />
+      ),
+    };
+  };
+
+  componentDidMount() {
+    this.props.navigation.setParams({
+      addNote: this.addNote,
+    });
+  }
+
+  addNote = () => {
+    this.props.navigation.navigate('AddNote');
+  };
+
   render() {
     console.log(this.props);
     const { titleStyle, bodyStyle } = styles;
     return (
-      <View>
+      <SafeAreaView>
+        <Header headerText={this.props.username} />
         <FlatList
           style={{ height: '87%' }}
           data={this.props.notes}
@@ -53,7 +75,7 @@ class NotesList extends Component {
           )}
         />
         {/* <Button onPress={this.props.signOut}>Sign Out</Button> */}
-      </View>
+      </SafeAreaView>
     );
   }
   componentWillUnmount() {
@@ -72,6 +94,7 @@ const styles = {
 const mapStateToProps = state => {
   return {
     notes: state.notes,
+    username: state.activeUser.username,
   };
 };
 
