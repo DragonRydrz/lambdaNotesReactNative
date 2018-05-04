@@ -4,7 +4,7 @@ export const LOGIN = 'LOGIN';
 export const ERROR = 'ERROR';
 const host = 'https://ajlnbe.herokuapp.com/api/login';
 
-export const login = data => dispatch => {
+export const login = (data, navigate) => dispatch => {
   console.log(data, 'in login action');
   axios
     .post(host, data)
@@ -15,6 +15,7 @@ export const login = data => dispatch => {
         type: LOGIN,
         payload: response.data.user,
       });
+      navigate('NotesList');
     })
     .catch(err => {
       console.log(err, 'err');

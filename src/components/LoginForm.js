@@ -24,47 +24,50 @@ class LoginForm extends Component {
       this.props.authorize(token);
     }
   }
+  componentWillReceiveProps(props) {}
 
   render() {
+    // if (!this.props.loggedIn && props.loggedIn) {
+    // this.props.navigation.navigate('NotesList');
+    // return null;
+    // return <NotesList />;
+    // return (
+    //   <View style={{ flex: 1, borderWidth: 5, fontSize: 20 }}>
+    //     <Text>SHOW ME THIS</Text>
+    //   </View>
+    // );
+    // }
     return this.loginOrNotes();
   }
 
   loginOrNotes() {
-    if (this.props.loggedIn) {
-      return <NotesList />;
-      console.log(this.props.loggedIn);
-      // return (
-      //   <View style={{ flex: 1, borderWidth: 5, fontSize: 20 }}>
-      //     <Text>SHOW ME THIS</Text>
-      //   </View>
-      // );
-    } else {
-      return (
-        <Card>
-          <CardSection>
-            <Input
-              placeholder="username"
-              label="Username"
-              value={this.state.email}
-              onChangeText={username => this.setState({ username })}
-            />
-          </CardSection>
-          <CardSection>
-            <Input
-              secureTextEntry
-              placeholder="password"
-              label="Password"
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-            />
-          </CardSection>
+    // else {
+    return (
+      <Card>
+        <CardSection>
+          <Input
+            placeholder="username"
+            label="Username"
+            value={this.state.username}
+            onChangeText={username => this.setState({ username })}
+          />
+        </CardSection>
+        <CardSection>
+          <Input
+            secureTextEntry
+            placeholder="password"
+            label="Password"
+            value={this.state.password}
+            onChangeText={password => this.setState({ password })}
+          />
+        </CardSection>
 
-          <Text style={styles.errorTextStyle}>{this.state.error}</Text>
+        <Text style={styles.errorTextStyle}>{this.state.error}</Text>
 
-          <CardSection>{this.renderButtons()}</CardSection>
-        </Card>
-      );
-    }
+        <CardSection>{this.renderButtons()}</CardSection>
+      </Card>
+    );
+    // }
   }
 
   renderButtons() {
@@ -80,7 +83,7 @@ class LoginForm extends Component {
               password: this.state.password,
             };
             this.setState({ username: '', password: '' });
-            return this.props.login(user);
+            return this.props.login(user, this.props.navigation.navigate);
           }}
         >
           Log In

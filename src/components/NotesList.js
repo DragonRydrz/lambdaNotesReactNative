@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { AsyncStorage, FlatList, View, Text } from 'react-native';
+import {
+  AsyncStorage,
+  FlatList,
+  View,
+  Text,
+  TouchableHighlight,
+} from 'react-native';
 import { Button } from './common/Button';
 import { connect } from 'react-redux';
 import { deleteNote } from '../actions/deleteNote';
@@ -8,6 +14,7 @@ import { Card, CardSection } from './common';
 
 class NotesList extends Component {
   render() {
+    console.log(this.props);
     const { titleStyle, bodyStyle } = styles;
     return (
       <View>
@@ -19,11 +26,25 @@ class NotesList extends Component {
             <Card>
               <CardSection>
                 <Text style={titleStyle}>{item.title.toUpperCase()}</Text>
+                {/* <TouchableHighlight
+                  onPress={() =>
+                    this.props.navigation.navigate('NoteEdit', { note: item })
+                  }
+                > */}
+                {/* <Text>edit</Text>
+                </TouchableHighlight> */}
               </CardSection>
               <CardSection>
                 <Text style={bodyStyle}>{item.body}</Text>
               </CardSection>
               <CardSection>
+                <Button
+                  onPress={() =>
+                    this.props.navigation.navigate('NoteEdit', { note: item })
+                  }
+                >
+                  Edit
+                </Button>
                 <Button onPress={() => this.props.deleteNote(item._id)}>
                   Delete
                 </Button>
@@ -31,9 +52,12 @@ class NotesList extends Component {
             </Card>
           )}
         />
-        <Button onPress={this.props.signOut}>Sign Out</Button>
+        {/* <Button onPress={this.props.signOut}>Sign Out</Button> */}
       </View>
     );
+  }
+  componentWillUnmount() {
+    this.props.signOut();
   }
 }
 
@@ -48,7 +72,6 @@ const styles = {
 const mapStateToProps = state => {
   return {
     notes: state.notes,
-    token: state.token,
   };
 };
 

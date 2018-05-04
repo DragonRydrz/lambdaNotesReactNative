@@ -6,14 +6,16 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { Header } from './components/common';
+import { RootStack } from './components/RootStack';
 import LoginForm from './components/LoginForm';
 
 const App = () => {
   return (
     <Provider store={createStore(reducers, applyMiddleware(thunk))}>
       <View style={{ flex: 1 }}>
-        <Header headerText="LambdaNotes" />
-        <LoginForm />
+        {/* <Header headerText="LambdaNotes" />
+        <LoginForm /> */}
+        <RootStack />
       </View>
     </Provider>
   );
